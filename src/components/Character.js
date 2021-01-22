@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+
+import CharacterDetails from "./CharacterDetails";
 import styled from "styled-components";
 
 const Styled = styled.div`
@@ -8,7 +10,7 @@ const Styled = styled.div`
   height: 100px;
   font-size: 1.3rem;
   font-weight: 600;
-  text-shadow: 2px 2px 10px white;
+  text-shadow: 1px 1px 2px white;
   padding: 10px;
   background: white;
   margin: 20px;
@@ -17,12 +19,33 @@ const Styled = styled.div`
   justify-content: center;
   align-items: center;
   background: url(${({ src }) => src}) center/cover;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export default function Character({ character }) {
+  const [toggle, setToggle] = useState(false);
+
+  const handleClick = (e) => {
+    if (!toggle) {
+      e.currentTarget.style.width = "300px";
+      e.currentTarget.style.height = "300px";
+      e.currentTarget.children[0].style.display = "none";
+      e.currentTarget.children[1].style.display = "block";
+    } else {
+      e.currentTarget.style.width = "100px";
+      e.currentTarget.style.height = "100px";
+      e.currentTarget.children[0].style.display = "block";
+      e.currentTarget.children[1].style.display = "none";
+    }
+    setToggle(!toggle);
+  };
+
   return (
-    <Styled src={character.src}>
+    <Styled src={character.src} onClick={(e) => handleClick(e)}>
       <div className="name">{character.name}</div>
+      <CharacterDetails character={character} />
     </Styled>
   );
 }
