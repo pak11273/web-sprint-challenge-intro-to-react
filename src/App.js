@@ -3,6 +3,7 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 
 import CharacterList from "./components/CharacterList";
+import { addBG } from "./helpers";
 import axios from "axios";
 
 const App = () => {
@@ -17,7 +18,11 @@ const App = () => {
     axios
       .get("https://swapi.dev/api/people/")
       .then((res) => {
-        setCharacters(res.data.results);
+        console.log(res);
+        res = res.data.results;
+        const withPhotos = addBG(res);
+        console.log(withPhotos);
+        setCharacters(withPhotos);
       })
       .catch((e) => console.log(e));
   }, []);
@@ -25,7 +30,7 @@ const App = () => {
   return (
     <div className="App">
       <h1 className="Header">Characters</h1>
-      <CharacterList characers={characters} />
+      <CharacterList characters={characters} />
     </div>
   );
 };
